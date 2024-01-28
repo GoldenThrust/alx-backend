@@ -2,7 +2,7 @@
 """ Pagination """
 
 
-def index_range(page: int, page_size: int) -> tuple[int, int]:
+def index_range(page: int, page_size: int) -> tuple:
     """ Returns a tuple of (start index, end index) of a page"""
-    number_of_page = page_size * page
-    return (number_of_page - page_size, number_of_page)
+    end_index = page_size * page
+    return (end_index - page_size, end_index)
