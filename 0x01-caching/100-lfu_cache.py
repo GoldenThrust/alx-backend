@@ -19,15 +19,14 @@ class LFUCache(BaseCaching):
             return
 
         self.cache_data[key] = item
-        self.access_key[key] = 0
+        
         if len(self.cache_data) > self.MAX_ITEMS:
             min_key = min(self.access_key, key=self.access_key.get)
             self.cache_data.pop(min_key)
+            self.access_key[key] += self.access_key[min_key] - 1
             del self.access_key[min_key]
             print('DISCARD: {}'.format(min_key))
 
-        self.access_key[key] = 1
-        print(self.access_key)
         
 
     def get(self, key):
@@ -39,7 +38,9 @@ class LFUCache(BaseCaching):
         for i in self.access_key.keys():
             self.access_key[i] -= 1
         
-        self.access_key[key] += 1
+        if key in self.access_key:
+            self.access_key[key] += 1
+            else
             
         
         return self.cache_data[key]
