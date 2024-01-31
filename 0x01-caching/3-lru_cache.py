@@ -20,6 +20,7 @@ class LRUCache(BaseCaching):
 
         self.cache_data[key] = item
         self.access_key[key] = 0
+        print(self.access_key)
         if len(self.cache_data) > self.MAX_ITEMS:
             min_key = min(self.access_key, key=self.access_key.get)
             self.cache_data.pop(min_key)
@@ -34,8 +35,7 @@ class LRUCache(BaseCaching):
             return None
         
         for i in self.access_key.keys():
-            if self.access_key[i] > 0:
-                self.access_key[i] -= 1
+            self.access_key[i] -= 1
         
         self.access_key[key] += 1
             
