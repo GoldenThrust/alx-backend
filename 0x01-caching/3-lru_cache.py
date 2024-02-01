@@ -5,7 +5,7 @@ BaseCaching = __import__("base_caching").BaseCaching
 
 
 class LRUCache(BaseCaching):
-    """Caching for basic caching"""
+    """Caching for LRU caching"""
 
     def __init__(self):
         """Initiliaze"""
@@ -22,7 +22,7 @@ class LRUCache(BaseCaching):
         if len(self.cache_data) > self.MAX_ITEMS:
             min_key = min(self.access_key, key=self.access_key.get)
             self.cache_data.pop(min_key)
-            del self.access_key[min_key]
+            self.access_key.pop(min_key)
             print("DISCARD: {}".format(min_key))
 
     def get(self, key):
@@ -30,8 +30,8 @@ class LRUCache(BaseCaching):
         if key is None or key not in self.cache_data:
             return None
 
-        for i in self.access_key.keys():
-            self.access_key[i] -= 1
+        for index in self.access_key.keys():
+            self.access_key[index] -= 1
 
         self.access_key[key] += 1
 
