@@ -16,7 +16,7 @@ class LFUCache(BaseCaching):
         """Add an item in the cache"""
         if key is None or item is None:
             return
-        
+
         if key in self.cache_data:
             self.cache_data[key] = item
             self.access_key[key] += 1
@@ -29,7 +29,6 @@ class LFUCache(BaseCaching):
                 print("DISCARD: {}".format(min_key))
             self.cache_data[key] = item
             self.access_key[key] = 1
-            
 
     def get(self, key):
         """Get an item by key"""
