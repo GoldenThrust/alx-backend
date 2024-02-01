@@ -23,7 +23,6 @@ class LFUCache(BaseCaching):
         else:
             if len(self.cache_data) >= self.MAX_ITEMS:
                 min_key = min(self.access_key, key=self.access_key.get)
-                print(min_key)
                 self.cache_data.pop(min_key)
                 del self.access_key[min_key]
                 print("DISCARD: {}".format(min_key))
