@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-""" Caching """
+""" LIFO Caching """
 
 BaseCaching = __import__("base_caching").BaseCaching
 
