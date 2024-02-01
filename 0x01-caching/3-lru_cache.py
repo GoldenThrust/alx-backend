@@ -30,8 +30,8 @@ class LRUCache(BaseCaching):
         if key is None or key not in self.cache_data:
             return None
 
-        for _, index in enumerate(self.access_key):
-            self.access_key[index] -= 1
+        # for index in self.access_key.keys():
+        #     self.access_key[index] -= 1
 
         self.access_key[key] += 1
 
