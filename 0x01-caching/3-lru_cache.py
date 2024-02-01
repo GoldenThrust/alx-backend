@@ -8,9 +8,9 @@ class LRUCache(BaseCaching):
     """Caching for LRU caching"""
 
     def __init__(self):
-        """Initiliaze"""
+        """Initialize"""
         super().__init__()
-        self.access_key = {}
+        self.access_count = {}
 
     def put(self, key, item):
         """Add an item in the cache"""
@@ -18,11 +18,11 @@ class LRUCache(BaseCaching):
             return
 
         self.cache_data[key] = item
-        self.access_key[key] = 0
+        self.access_count[key] = 0
         if len(self.cache_data) > self.MAX_ITEMS:
-            min_key = min(self.access_key, key=self.access_key.get)
+            min_key = min(self.access_count, key=self.access_count.get)
             self.cache_data.pop(min_key)
-            self.access_key.pop(min_key)
+            self.access_count.pop(min_key)
             print("DISCARD: {}".format(min_key))
 
     def get(self, key):
@@ -30,9 +30,9 @@ class LRUCache(BaseCaching):
         if key is None or key not in self.cache_data:
             return None
 
-        for index in self.access_key.keys():
-            self.access_key[index] -= 1
+        for k in self.access_count.keys():
+            self.access_count[k] -= 1
 
-        self.access_key[key] += 1
+        self.access_count[key] += 1
 
         return self.cache_data[key]
