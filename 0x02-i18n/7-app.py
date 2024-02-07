@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+""" internationalization Flask app """
 import pytz
 from flask import Flask, render_template, request, g
 from flask_babel import Babel, format_datetime
