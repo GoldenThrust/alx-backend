@@ -59,15 +59,18 @@ def before_request():
 
 
 @babel.timezoneselector
+@babel.timezoneselector
 def get_timezone() -> str:
-    """Retrieves the timezone of the current user"""
     timezone = request.args.get("timezone")
 
-    if not timezone and g.user:
-        timezone = g.user["timezone"]
+    if not timezone and g and g.user:
+        timezone = g.user.get("timezone")
 
     try:
-        return pytz.timezone(timezone).zone
+        if timezone:
+            return pytz.timezone(timezone).zone
+        else:
+            return app.config["BABEL_DEFAULT_TIMEZONE"]
     except pytz.exceptions.UnknownTimeZoneError:
         return app.config["BABEL_DEFAULT_TIMEZONE"]
 
