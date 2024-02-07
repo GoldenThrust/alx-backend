@@ -32,7 +32,7 @@ def get_locale():
     r_locale = request.args.get("locale")
     if r_locale and r_locale in app.config["LANGUAGES"]:
         return r_locale
-    if g.user:
+    if g and g.user:
         u_locale = g.user.get("locale")
         if u_locale and u_locale in app.config["LANGUAGES"]:
             return u_locale
