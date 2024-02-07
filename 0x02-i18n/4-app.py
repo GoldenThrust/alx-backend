@@ -17,11 +17,10 @@ app.config.from_object(Config)
 def get_locale():
     """ Retrieves the best match with
     our supported languages. """
-    user = getattr(g, 'user', None)
+    r_locale = request.args.get('locale')
     print(g)
-    if user is None:
-        # if user.local in app.config["LANGUAGES"]:
-        return user.locale
+    if r_locale and r_locale in app.config["LANGUAGES"]:
+        return r_locale
     return request.accept_languages.best_match(app.config['LANGUAGES'])
 
 @app.route('/')
