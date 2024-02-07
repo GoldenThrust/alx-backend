@@ -18,9 +18,10 @@ def get_locale():
     """ Retrieves the best match with
     our supported languages. """
     user = getattr(g, 'user', None)
+    print(g)
     if user is None:
-        if user.local in app.config["LANGUAGES"]:
-            return user.locale
+        # if user.local in app.config["LANGUAGES"]:
+        return user.locale
     return request.accept_languages.best_match(app.config['LANGUAGES'])
 
 @app.route('/')
