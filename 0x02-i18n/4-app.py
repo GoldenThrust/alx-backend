@@ -26,7 +26,7 @@ def get_locale():
 @app.route('/')
 def index():
     """The home page."""
-    return render_template('3-index.html')
+    return render_template('4-index.html')
 
 if __name__ == '__main__':
     app.run(debug=True)
