@@ -2,7 +2,7 @@
 """ internationalization Flask app """
 import pytz
 from flask import Flask, render_template, request, g
-from flask_babel import Babel
+from flask_babel import Babel, format_datetime
 
 users = {
     1: {"name": "Balou", "locale": "fr", "timezone": "Europe/Paris"},
@@ -62,11 +62,14 @@ def before_request():
 def get_timezone() -> str:
     timezone = request.args.get("timezone")
 
-    if not timezone and g.user:
-        timezone = g.user["timezone"]
+    if not timezone and g and g.user:
+        timezone = g.user.get("timezone")
 
     try:
-        return pytz.timezone(timezone).zone
+        if timezone:
+            return pytz.timezone(timezone).zone
+        else:
+            return app.config["BABEL_DEFAULT_TIMEZONE"]
     except pytz.exceptions.UnknownTimeZoneError:
         return app.config["BABEL_DEFAULT_TIMEZONE"]
 
@@ -74,6 +77,7 @@ def get_timezone() -> str:
 @app.route("/")
 def index():
     """The home page."""
+    g.time = format_datetime()
     return render_template("index.html")
 
 
