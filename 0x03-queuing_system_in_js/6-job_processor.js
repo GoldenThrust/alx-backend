@@ -1,11 +1,16 @@
-import { createClient } from 'redis';
+import { createQueue } from 'kue';
 
-const client = createClient();
+const queue = createQueue();
 
-client.on('error', (err) => {
-  console.log('Redis client not connected to the server:', err.toString());
-});
+function sendNotification(phoneNumber, message) {
+  console.log(
+    `Sending notification to ${phoneNumber},`,
+    'with message:',
+    message,
+  );
+};
 
-client.on('connect', () => {
-  console.log('Redis client connected to the server');
+queue.process('push_notification_code', (job, done) => {
+  sendNotification(job.data.phoneNumber, job.data.message);
+  done();
 });

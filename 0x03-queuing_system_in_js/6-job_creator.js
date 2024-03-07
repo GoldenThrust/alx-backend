@@ -1,11 +1,24 @@
-import { createClient } from 'redis';
+import { createQueue } from 'kue';
 
-const client = createClient();
+const queue = createQueue();
 
-client.on('error', (err) => {
-  console.log('Redis client not connected to the server:', err.toString());
+const jobData = {
+  phoneNumber: '4153518780',
+  message: "This is the code to verify your account",
+}
+
+const job = queue.create('push_notification_code', jobData);
+
+job.on('enqueue', () => {
+  console.log('Notification job created:', job.id);
+})
+
+job.on('complete', () => {
+  console.log('Notification job completed');
+})
+
+job.on('failed attempt', () => {
+  console.log('Notification job failed');
 });
 
-client.on('connect', () => {
-  console.log('Redis client connected to the server');
-});
+job.save();
