@@ -1,11 +1,28 @@
-import { createClient } from 'redis';
+export default function createPushNotificationJobs(jobs, queue) {
+  if (!(jobs instanceof Array)) {
+    throw new Error('jobs is not an array');
+  }
 
-const client = createClient();
 
-client.on('error', (err) => {
-  console.log('Redis client not connected to the server:', err.toString());
-});
+  for (const jobData of jobs) {
+    const job = queue.create('push_notification_code_3', jobData);
 
-client.on('connect', () => {
-  console.log('Redis client connected to the server');
-});
+    job.on('enqueue', () => {
+      console.log('Notification job created:', job.id);
+    })
+
+    job.on('complete', () => {
+      console.log('Notification job', job.id, 'completed');
+    })
+
+    job.on('failed', (err) => {
+      console.log('Notification job', job.id, 'failed:', err.message || err.toString());
+    })
+
+    job.on('progress', (progress, _res) => {
+      console.log('Notification job', `#${job.id} ${progress}% complete`);
+    });
+
+    job.save();
+  }
+}
