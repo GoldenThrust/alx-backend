@@ -1,6 +1,6 @@
 export default function createPushNotificationJobs(jobs, queue) {
   if (!(jobs instanceof Array)) {
-    throw new Error('jobs is not an array');
+    throw new Error('Jobs is not an array');
   }
 
 
@@ -20,7 +20,7 @@ export default function createPushNotificationJobs(jobs, queue) {
     })
 
     job.on('progress', (progress, _res) => {
-      console.log('Notification job', `#${job.id} ${progress}% complete`);
+      console.log(`Notification job #${job.id} ${progress}% complete`);
     });
 
     job.save();
